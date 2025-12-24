@@ -5,6 +5,7 @@
 
 .layout {
     display: flex;
+    width: 100%;
     height: 100vh;
     background: #f7f7fa;
     color: #111827;
@@ -12,7 +13,7 @@
 }
 
 .sidebar {
-    width: 220px;
+    position: relative;
     border-right: 1px solid #e5e7eb;
     background: #ffffff;
     padding: 12px;
@@ -20,6 +21,54 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    transition: width 0.1s ease;
+}
+
+.sidebar-resizer {
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    background: transparent;
+    z-index: 10;
+    transition: background 0.2s ease;
+}
+
+.sidebar-resizer:hover {
+    background: #3b82f6;
+}
+
+.sidebar-resizer:active {
+    background: #2563eb;
+}
+
+.sidebar-restore-arrow {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 48px;
+    background: #3b82f6;
+    border-radius: 0 8px 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: background 0.2s ease, width 0.2s ease;
+    color: #ffffff;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-restore-arrow:hover {
+    background: #2563eb;
+    width: 28px;
+}
+
+.sidebar-restore-arrow:active {
+    background: #1d4ed8;
 }
 
 .sidebar-header {
@@ -99,7 +148,8 @@
 
 .flow-node {
     position: absolute;
-    min-width: 140px;
+    /* min-width: 140px; */
+    width: 140px;
     padding: 12px 14px 10px;
     background: #ffffff;
     border: 1px solid #e5e7eb;
@@ -119,5 +169,182 @@
 .node-type {
     font-size: 12px;
     color: #6b7280;
+}
+
+.node-label-input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 2px solid #3b82f6;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #111827;
+    font-size: inherit;
+    font-family: inherit;
+    outline: none;
+    background: #ffffff;
+    margin-bottom: 4px;
+}
+
+.node-label-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 右键菜单样式 */
+.context-menu {
+    position: fixed;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 4px;
+    z-index: 1000;
+    min-width: 140px;
+    animation: contextMenuFadeIn 0.15s ease;
+}
+
+@keyframes contextMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.context-menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #374151;
+    transition: background 0.15s ease;
+    user-select: none;
+}
+
+.context-menu-item:hover {
+    background: #f3f4f6;
+}
+
+.context-menu-item-danger {
+    color: #ef4444;
+}
+
+.context-menu-item-danger:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* 编辑对话框样式 */
+.edit-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: overlayFadeIn 0.2s ease;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.edit-dialog {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    animation: dialogSlideIn 0.2s ease;
+}
+
+@keyframes dialogSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.edit-dialog-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.edit-dialog-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.edit-dialog-input:focus {
+    border-color: #3b82f6;
+}
+
+.edit-dialog-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.edit-dialog-textarea:focus {
+    border-color: #3b82f6;
+}
+
+.edit-dialog-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* 连线标签样式 */
+.connection-label {
+    background: #ffffff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #374151;
+    white-space: nowrap;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 连线右键触发区域 */
+.connection-context-trigger {
+    pointer-events: all;
 }
 
