@@ -174,7 +174,8 @@ function MainView() {
                 const newZoom = Math.max(0.1, Math.min(3, zoom * delta));
                 setZoom(newZoom);
                 const instance = jsPlumbRef.current;
-                if (instance) {
+                if (instance && containerRef.current) {
+                    containerRef.current.style.transform = `scale(${newZoom})`;
                     instance.setZoom(newZoom);
                     instance.repaintEverything();
                 }
@@ -417,19 +418,22 @@ function MainView() {
             )}
             <section className="workspace">
                 <div className="workspace-header">流程图工作台</div>
-                <div ref={setCanvasRef} className="canvas" id="flow-canvas">
-                    {nodes.length === 0 && (
-                        <div className="canvas-placeholder">将左侧控件拖入此处</div>
-                    )}
-                    {nodes.map((node) => (
-                        <FlowNode 
-                            key={node.id} 
-                            node={node}
-                            isEditing={editingNodeId === node.id}
-                            onUpdateLabel={(newLabel: string) => handleUpdateNodeLabel(node.id, newLabel)}
-                        />
-                    ))}
+                <div className="workspace-content">
+                    <div ref={setCanvasRef} className="canvas" id="flow-canvas">
+                        {nodes.length === 0 && (
+                            <div className="canvas-placeholder">将左侧控件拖入此处</div>
+                        )}
+                        {nodes.map((node) => (
+                            <FlowNode 
+                                key={node.id} 
+                                node={node}
+                                isEditing={editingNodeId === node.id}
+                                onUpdateLabel={(newLabel: string) => handleUpdateNodeLabel(node.id, newLabel)}
+                            />
+                        ))}
+                    </div>
                 </div>
+                
             </section>
 
             {/* 右键菜单 */}
